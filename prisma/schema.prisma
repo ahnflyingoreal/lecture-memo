@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// 외부 강의 메모(로그인 없음, PostgreSQL / Neon)
+model LectureMemo {
+  id             String   @id
+  title          String
+  lectureUrl     String   @default("")
+  content        String   @default("")
+  positionNote   String   @default("")
+  pinned         Boolean  @default(false)
+  organization   String   @default("")
+  sessionDate    String   @default("")
+  attendeeCount  String   @default("")
+  topic          String   @default("")
+  remarks        String   @default("")
+  misc           String   @default("")
+  /// data URL 문자열 배열(JSON)
+  images         Json     @default("[]")
+  createdAt      DateTime
+  updatedAt      DateTime
+}

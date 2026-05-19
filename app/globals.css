@@ -1,0 +1,248 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (@media (prefers-color-scheme: light) and (prefers-color-scheme: dark));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-noto-sans), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-heading: var(--font-noto-serif), ui-serif, serif;
+  --font-serif: var(--font-noto-serif), ui-serif, serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-archive-red: var(--archive-red);
+  --color-archive-green: var(--archive-green);
+  --color-archive-brown: var(--archive-brown);
+}
+
+/* Field Archive — 첨부 목업 팔레트 */
+:root {
+  --archive-paper: #f5f2e9;
+  --archive-cream: #fffef9;
+  --archive-brown: #3d342c;
+  --archive-red: #8b1e1e;
+  --archive-green: #4a5d4e;
+  --archive-wash: #ebe6dc;
+  --archive-line: #d4cdc0;
+
+  --background: var(--archive-paper);
+  --foreground: var(--archive-brown);
+  --card: var(--archive-cream);
+  --card-foreground: var(--archive-brown);
+  --popover: var(--archive-cream);
+  --popover-foreground: var(--archive-brown);
+  --primary: var(--archive-red);
+  --primary-foreground: #fffef9;
+  --secondary: var(--archive-green);
+  --secondary-foreground: #fffef9;
+  --muted: var(--archive-wash);
+  --muted-foreground: #6b6358;
+  --accent: #f0ebe2;
+  --accent-foreground: var(--archive-brown);
+  --destructive: #a33b2e;
+  --destructive-foreground: #fffef9;
+  --border: var(--archive-line);
+  --input: #f8f5ef;
+  --ring: var(--archive-red);
+  --radius: 0.5rem;
+  --sidebar: #efe9df;
+  --sidebar-foreground: var(--archive-brown);
+  --sidebar-primary: var(--archive-red);
+  --sidebar-primary-foreground: #fffef9;
+  --sidebar-accent: var(--archive-wash);
+  --sidebar-accent-foreground: var(--archive-brown);
+  --sidebar-border: var(--archive-line);
+  --sidebar-ring: var(--archive-red);
+}
+
+@keyframes archive-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    color-scheme: light;
+    @apply font-sans;
+  }
+}
+
+@layer components {
+  .memo-md {
+    @apply prose prose-sm max-w-none;
+    --tw-prose-body: var(--foreground);
+    --tw-prose-headings: var(--archive-brown);
+    --tw-prose-links: var(--archive-red);
+    font-family: var(--font-serif), ui-serif, serif;
+  }
+
+  .archive-app {
+    @apply relative flex h-dvh min-h-0 w-full flex-col overflow-hidden md:flex-row;
+    background: var(--archive-paper);
+  }
+
+  @media (max-width: 767px) {
+    .archive-sidebar {
+      @apply h-auto max-h-[42vh] w-full shrink-0 border-r-0 border-b;
+    }
+    .archive-main {
+      @apply min-h-0 flex-1;
+    }
+  }
+
+  .archive-app::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.28;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+
+  .archive-sidebar {
+    @apply relative z-10 flex h-full w-[min(100%,320px)] shrink-0 flex-col border-r shadow-[4px_0_24px_-8px_rgba(61,52,44,0.12)];
+    background: linear-gradient(180deg, #f8f4ec 0%, #efe9df 100%);
+    border-color: var(--archive-line);
+    animation: archive-rise 0.5s ease both;
+  }
+
+  .archive-sidebar::after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #9a8f82;
+    background: radial-gradient(circle at 35% 35%, #d8d0c4, #a89f92);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  }
+
+  .archive-main {
+    @apply relative z-10 flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden;
+    animation: archive-rise 0.55s ease 0.08s both;
+  }
+
+  .archive-sheet {
+    @apply m-3 flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border bg-card shadow-[0_8px_40px_-12px_rgba(61,52,44,0.18)];
+    border-color: var(--archive-line);
+  }
+
+  .archive-title-serif {
+    font-family: var(--font-noto-serif), ui-serif, serif;
+    color: var(--archive-red);
+    letter-spacing: -0.02em;
+  }
+
+  .archive-caption {
+    @apply font-mono text-[10px] font-medium tracking-[0.22em] uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .archive-polaroid {
+    @apply relative bg-white p-2 pb-10 shadow-[0_12px_28px_-8px_rgba(61,52,44,0.35)];
+    transform: rotate(2.5deg);
+  }
+
+  .archive-polaroid::before,
+  .archive-polaroid::after {
+    content: "";
+    position: absolute;
+    width: 52px;
+    height: 18px;
+    background: oklch(0.92 0.02 85 / 0.55);
+    border: 1px solid oklch(0.85 0.02 80 / 0.4);
+    z-index: 2;
+  }
+  .archive-polaroid::before {
+    top: -6px;
+    left: 18%;
+    transform: rotate(-8deg);
+  }
+  .archive-polaroid::after {
+    top: 8px;
+    right: 12%;
+    transform: rotate(6deg);
+  }
+
+  .archive-tag {
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px];
+    border-color: var(--archive-line);
+    background: var(--archive-wash);
+    color: var(--archive-brown);
+  }
+
+  .archive-index-active {
+    background: oklch(0.97 0.02 85 / 0.9);
+    box-shadow: inset 3px 0 0 var(--archive-red);
+  }
+
+  .archive-footer-quote {
+    @apply text-center text-xs leading-relaxed italic;
+    color: var(--muted-foreground);
+  }
+
+  .archive-editor-lines {
+    @apply font-mono text-xs leading-relaxed text-muted-foreground;
+    user-select: none;
+  }
+
+  .archive-tab-active {
+    @apply border-b-2 font-medium;
+    border-color: var(--archive-red);
+    color: var(--archive-brown);
+  }
+
+  .btn-archive-save {
+    background: var(--archive-green) !important;
+    color: #fffef9 !important;
+  }
+  .btn-archive-save:hover {
+    filter: brightness(1.06);
+  }
+}
