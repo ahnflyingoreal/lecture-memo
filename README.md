@@ -40,14 +40,16 @@ Vercel은 디스크에 SQLite 파일을 둘 수 없어 **Neon(PostgreSQL)** 이 
 |----------------------|-----------------|
 | `POSTGRES_PRISMA_URL` | `DATABASE_URL` |
 | `POSTGRES_URL` | `DATABASE_URL` (대체) |
-| `POSTGRES_URL_NON_POOLING` | `DIRECT_URL` |
+| `POSTGRES_URL_NON_POOLING` | 빌드 시 `migrate deploy` (필수에 가깝음) |
 
 수동 설정 시:
 
 | 변수 | 용도 |
 |------|------|
-| `DATABASE_URL` | 앱 런타임 (pooled 권장) |
-| `DIRECT_URL` | 마이그레이션 (unpooled, 없으면 `DATABASE_URL` 사용) |
+| `DATABASE_URL` 또는 `POSTGRES_PRISMA_URL` | 앱 런타임 (pooled) |
+| `POSTGRES_URL_NON_POOLING` | 빌드 시 마이그레이션 (unpooled) |
+
+> `migrate deploy`는 **pooler URL로 하면 실패**합니다. Vercel Storage를 프로젝트에 Connect하면 non-pooling 변수가 함께 들어옵니다.
 
 > **Deploy 전에** Storage 연결을 끝내지 않으면 빌드는 통과할 수 있지만, 사이트에서 DB 오류가 납니다.
 
